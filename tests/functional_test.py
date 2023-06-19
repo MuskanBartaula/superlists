@@ -2,6 +2,7 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 
 DRIVER_PATH = 'H:/Tutorial/Testing/lib/chromedriver.exe'
@@ -22,9 +23,17 @@ class HomePageTest(unittest.TestCase):
         return super().tearDown()
     
     def test_home_page(self) -> None:
+        # Mukesh heard a cool todo list site on the internet. He visit the site via chrome.
         self.browser.get('http://localhost:8000')
-        assert 'The install worked successfully!' in self.browser.title, "The is not in title"
-    
+        
+        # He looks the title of the site and 
+        # notice the title and header is "TO-DO!"
+        title = 'TO-DO'
+        self.assertIn(title, self.browser.title)
+        header = self.browser.find_element(By.TAG_NAME, 'h1')
+  
+        self.assertIn(header.text, title)
+
 
 if __name__ == '__main__':
     unittest.main()

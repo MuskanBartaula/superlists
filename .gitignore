@@ -1,2 +1,7 @@
 venv/
 lib/
+
+__pycache__
+*.pyc
+
+db.sqlite3
