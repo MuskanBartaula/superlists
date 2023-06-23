@@ -9,3 +9,4 @@ class HomePageTest(TestCase):
         self.assertTrue(content.startswith('<html>'))
         self.assertIn("<title>TO-DO</title>", content)
         self.assertTrue(content.endswith('</html>'))
+        self.assertTemplateUsed(response, 'home.html')
