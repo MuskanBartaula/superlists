@@ -44,11 +44,12 @@ class HomePageTest(unittest.TestCase):
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
 
-        time.sleep(2)
+        time.sleep(5)
         
         table = self.browser.find_element(By.ID, 'id_list_table')
         rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertTrue(any(row.text == "1: Buy peacock feathers" for row in rows), "New to-do item did not appear in table")
+        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
+        # self.assertTrue(any(row.text == "1: Buy peacock feathers" for row in rows), "New to-do item did not appear in table")
 
         self.fail('Finish the test')
 
