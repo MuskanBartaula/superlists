@@ -16,7 +16,7 @@ class HomePageTest(unittest.TestCase):
         self.service = Service(executable_path=DRIVER_PATH)
         self.chrome_options = Options()
         self.chrome_options.binary_location= BINARY_PATH
-        self.chrome_options.add_argument('--no-sandbox')
+        # self.chrome_options.add_argument('--no-sandbox')
         self.browser = webdriver.Chrome(service=self.service, options=self.chrome_options)
         return super().setUp()
     
@@ -24,7 +24,12 @@ class HomePageTest(unittest.TestCase):
         self.browser.quit()
         return super().tearDown()
     
-    def test_home_page(self) -> None:
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element(By.ID, 'id_list_table')
+        rows = table.find_elements(By.TAG_NAME, 'tr')
+        self.assertIn(row_text, [row.text for row in rows])
+    
+    def test_can_start_a_list_and_retrieve_it_later(self) -> None:
         # Mukesh heard a cool todo list site on the internet. He visit the site via chrome.
         self.browser.get('http://localhost:8000')
         
@@ -43,13 +48,9 @@ class HomePageTest(unittest.TestCase):
         # He enter some to-do items
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
-
-        time.sleep(5)
+        self.check_for_row_in_list_table("1: Buy peacock feathers")
+        time.sleep(1)
         
-        table = self.browser.find_element(By.ID, 'id_list_table')
-        rows = table.find_elements(By.TAG_NAME, 'tr')
-        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
-        # self.assertTrue(any(row.text == "1: Buy peacock feathers" for row in rows), "New to-do item did not appear in table")
 
         self.fail('Finish the test')
 
