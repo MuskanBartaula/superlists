@@ -7,9 +7,7 @@ def home(request):
         new_text = request.POST.get('item_text', '')
         Item.objects.create(text=new_text)
         return redirect('/')
-    else:
-        new_text = ''
     context = {
-        'new_item_text': new_text
+        'items': Item.objects.all()
     }
     return render(request, 'home.html', context)
